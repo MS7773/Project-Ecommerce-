@@ -6,7 +6,7 @@ const initialState = {
     count : 0
 }
 
-//NOTe const [count,setCount] = useState(0)
+//NOTE const [count,setCount] = useState(0)
 
 //Step - 3 
 

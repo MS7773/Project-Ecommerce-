@@ -13,6 +13,7 @@ const schema = z.object({
   name: z.string().min(1, "Name is required").max(40, "Name cannot exceed 40 characters"),
   email: z.string().email("A valid email is required"),
   phone: z.string().min(10, "Phone number must be at least 10 characters"),
+  // phone: z.string().regex(/^[6-9]\d{9}$/, "Phone number must be a valid 10-digit Indian number starting with 6, 7, 8, or 9"),
   password: z.string()
     .min(8, "Password is too short")
     .regex(/[0-9]/, "Password must contain a number")
@@ -107,3 +108,7 @@ function Signup() {
 }
 
 export default Signup;
+
+
+// Zod is a powerful tool for schema declaration and validation
+//useDispatch and useSelector: Redux hooks for dispatching actions (useDispatch) and accessing global state (useSelector).

@@ -1,27 +1,41 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { userLogin } from '../redux/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { FaGoogle, FaUser, FaLock } from 'react-icons/fa';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate , useLocation } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 function Login() {
   const { handleSubmit, register, formState: { errors } } = useForm(); 
+  const {role , loading} = useSelector((state)=>state.user)
   const dispatch = useDispatch();
-  const Location= useLocation()
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname)
+console.log(role)
   const [showPassword, setShowPassword] = useState(false);
-  const {role}=useSelector((state)=>state.user);
-  console.log(role);
+
+  useEffect(()=>{
+    if(role ==='user' && location.pathname !== '/' ){
+   navigate('/')
+    }
+     if(role ==='admin' && location.pathname !== 'dashboard'){
+      navigate('/dashboard')
+    }
+
+  },[role,navigate,location.pathname])
+
 
   const onSubmit = (data) => {
     console.log(data);
     dispatch(userLogin(data));
+   
   };
 
-  const togglePassword = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
@@ -31,7 +45,7 @@ function Login() {
         <h1 className="text-black font-bold text-3xl text-center mb-4">Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
 
-         
+          {/* Email Field */}
           <div className="relative mb-4">
             <FaUser className="absolute left-3 top-3 text-gray-500" />
             <input
@@ -43,7 +57,7 @@ function Login() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
-         
+          {/* Password Field */}
           <div className="relative mb-4">
             <FaLock className="absolute left-3 top-3 text-gray-500" />
             <input
@@ -55,7 +69,7 @@ function Login() {
             <button
               type="button"
               className="absolute right-3 top-3 text-gray-500"
-              onClick={togglePassword}
+              onClick={togglePasswordVisibility}
             >
               {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
             </button>
@@ -67,14 +81,14 @@ function Login() {
             className="bg-black px-8 py-2 rounded-md w-full mt-3 text-white"
             type="submit"
           >
-            Login
+           {loading ? <CircularProgress size={20} className='text-white'/> : 'Login'}
           </button>
         </form>
 
-       
+      
         <button
           className="flex items-center justify-center mt-5 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full"
-         
+         onClick={()=> window.location.href = "http://localhost:3000/api/auth/google"}
         >
           <FaGoogle className="mr-2" />
           Login with Google

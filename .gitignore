@@ -9,13 +9,7 @@ frontend/node_modules/
 backend/node_modules/
 
 # Build output
-dist/#include<iostream>
-using namespace std;
-
-int main(){
-    
-    return 0;
-}
+dist/
 build/
 
 # Environment variables
