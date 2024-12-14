@@ -68,7 +68,7 @@ exports.googleAuth = async(req,res) => {
   const token = jwt.sign({id : user._id , name:user.name, role:user.role} , 'this-is-my-secret-string' , {expiresIn : '30d'} )
 
   // Redirect the user to the frontend application with token and role as query parameters
-res.redirect(`http://localhost:5173/auth/google/callback?token=${token}&role=${user.role}`)
+  res.redirect(`${process.env.REDIRECT_URL}?token=${token}&role=${user.role}`)
  
   } 
   catch (error) {
